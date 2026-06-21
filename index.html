@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>talkme | supabase powered</title>
+  <title>talkme | premium communication</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
     
     * {
       margin: 0;
@@ -15,143 +15,340 @@
     }
 
     :root {
-      --primary-black: #0A0A0A;
-      --neon-cyan: #00F0FF;
-      --font-sf: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+      --bg-primary: #f8f9fc;
+      --bg-secondary: #ffffff;
+      --bg-card: #ffffff;
+      --bg-hover: #f1f3f8;
+      --border-color: #e8ecf1;
+      --text-primary: #1a1a2e;
+      --text-secondary: #4a4a6a;
+      --text-muted: #8a8aaa;
+      --accent: #6c5ce7;
+      --accent-light: rgba(108, 92, 231, 0.08);
+      --accent-glow: rgba(108, 92, 231, 0.2);
+      --accent-gradient: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      --success: #00b894;
+      --success-light: rgba(0, 184, 148, 0.15);
+      --danger: #ff6b6b;
+      --danger-light: rgba(255, 107, 107, 0.15);
+      --warning: #fdcb6e;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.08);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     body {
-      background: var(--primary-black);
-      font-family: var(--font-sf);
-      color: var(--neon-cyan);
+      background: var(--bg-primary);
+      font-family: var(--font);
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 1rem;
+      padding: 1.5rem;
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #5a4bd1;
     }
 
     .app-container {
       max-width: 1400px;
       width: 100%;
-      background: rgba(10, 10, 10, 0.95);
-      backdrop-filter: blur(40px);
-      border: 1px solid rgba(0, 240, 255, 0.2);
-      border-radius: 3rem;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 20px rgba(0,240,255,0.25);
+      height: 92vh;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      min-height: 90vh;
+      position: relative;
     }
 
+    /* Header */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem 2.5rem;
-      border-bottom: 1px solid rgba(0,240,255,0.15);
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      flex-shrink: 0;
+      z-index: 10;
     }
 
     .logo {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(180deg, #00F0FF, #00b8c4);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--accent-gradient);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
 
     .btn {
       background: transparent;
-      border: 1px solid var(--neon-cyan);
-      color: var(--neon-cyan);
-      padding: 0.7rem 1.8rem;
-      border-radius: 2.5rem;
-      font-weight: 600;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.85rem;
       cursor: pointer;
-      transition: all 0.2s;
-      font-family: var(--font-sf);
+      transition: var(--transition);
+      font-family: var(--font);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: var(--bg-hover);
+      border-color: #d0d4dc;
+      transform: translateY(-1px);
     }
 
     .btn-primary {
-      background: var(--neon-cyan);
-      color: #000;
-      box-shadow: 0 0 20px rgba(0,240,255,0.5);
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      box-shadow: 0 6px 25px var(--accent-glow);
+      transform: translateY(-2px);
     }
 
     .btn-primary:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+      transform: none;
     }
 
+    .btn-ghost {
+      border: none;
+      background: transparent;
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-hover);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+      border: none;
+    }
+
+    .btn-danger:hover {
+      background: #e55a5a;
+    }
+
+    .btn-sm {
+      padding: 0.35rem 0.9rem;
+      font-size: 0.78rem;
+    }
+
+    .btn-outline-primary {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-outline-primary:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    /* Profile Area */
+    .profile-area {
+      display: none;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .profile-area.visible {
+      display: flex;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+    }
+
+    .user-phone {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 1000;
-      backdrop-filter: blur(10px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    .modal-overlay.active { display: flex; }
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
 
     .modal {
-      background: #0A0A0A;
-      border: 2px solid var(--neon-cyan);
-      border-radius: 2.5rem;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
       padding: 2.5rem;
       max-width: 420px;
-      width: 90%;
-      box-shadow: 0 0 50px rgba(0,240,255,0.3);
+      width: 92%;
+      box-shadow: var(--shadow-lg);
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .modal h2 { text-align: center; margin-bottom: 1.5rem; }
+    .modal-overlay.active .modal {
+      transform: scale(1);
+    }
 
-    .input-group { margin-bottom: 1rem; }
+    .modal h2 {
+      text-align: center;
+      margin-bottom: 0.25rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .modal-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.25rem;
+    }
 
     .input-group label {
       display: block;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-      opacity: 0.8;
+      margin-bottom: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .input-group input {
       width: 100%;
-      padding: 0.8rem 1.2rem;
-      background: transparent;
-      border: 1px solid rgba(0,240,255,0.4);
-      border-radius: 2rem;
-      color: var(--neon-cyan);
-      font-family: var(--font-sf);
-      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      font-family: var(--font);
+      font-size: 0.95rem;
       outline: none;
+      transition: var(--transition);
     }
 
     .input-group input:focus {
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 15px rgba(0,240,255,0.2);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
     }
 
-    .phone-input { display: flex; gap: 0.5rem; }
-    .country-code { width: 80px !important; text-align: center; }
+    .input-group input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .phone-input {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .country-code {
+      width: 80px !important;
+      text-align: center;
+      flex-shrink: 0;
+    }
 
     .error-msg {
-      color: #ff3366;
-      font-size: 0.85rem;
+      color: var(--danger);
+      font-size: 0.8rem;
       margin-top: 0.3rem;
       display: none;
     }
 
-    .error-msg.show { display: block; }
+    .error-msg.show {
+      display: block;
+    }
 
     .password-strength {
-      height: 4px;
-      background: rgba(0,240,255,0.2);
-      border-radius: 2px;
+      height: 3px;
+      background: var(--border-color);
+      border-radius: 4px;
       margin-top: 0.5rem;
       overflow: hidden;
     }
@@ -161,148 +358,409 @@
       transition: width 0.3s, background 0.3s;
     }
 
-    .strength-weak { width: 33%; background: #ff3366; }
-    .strength-medium { width: 66%; background: #ffaa00; }
-    .strength-strong { width: 100%; background: #00ff88; }
+    .strength-weak { width: 33%; background: var(--danger); }
+    .strength-medium { width: 66%; background: var(--warning); }
+    .strength-strong { width: 100%; background: var(--success); }
 
+    .modal-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .modal-footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Layout */
     .main-content {
       display: flex;
       flex: 1;
-      min-height: 600px;
+      overflow: hidden;
     }
 
+    /* Sidebar */
     .sidebar {
-      width: 280px;
-      background: rgba(5,5,5,0.8);
-      border-right: 1px solid rgba(0,240,255,0.15);
+      width: 240px;
+      background: var(--bg-primary);
+      border-right: 1px solid var(--border-color);
       padding: 1.5rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 0.35rem;
+      flex-shrink: 0;
+      overflow-y: auto;
     }
 
     .nav-item {
-      padding: 0.9rem 1.4rem;
-      border-radius: 2rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      border: 1px solid transparent;
+      gap: 0.75rem;
+      transition: var(--transition);
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.9rem;
+      position: relative;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
     }
 
     .nav-item.active {
-      background: rgba(0,240,255,0.1);
-      border-color: rgba(0,240,255,0.4);
+      background: var(--accent-light);
+      color: var(--accent);
     }
 
+    .nav-item .badge {
+      margin-left: auto;
+      background: var(--accent);
+      color: white;
+      font-size: 0.65rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+    }
+
+    /* Central Panel */
     .central-panel {
       flex: 1;
       padding: 1.5rem 2rem;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1.5rem;
+      background: var(--bg-secondary);
     }
 
+    /* Friends List */
     .friends-list {
-      background: rgba(0,240,255,0.03);
-      border: 1px solid rgba(0,240,255,0.2);
-      border-radius: 2rem;
-      padding: 1.2rem;
       flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .section-count {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+
+    .friends-container {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding-right: 0.5rem;
     }
 
     .friend-card {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem;
-      margin-bottom: 0.5rem;
-      background: rgba(0,240,255,0.05);
-      border: 1px solid rgba(0,240,255,0.15);
-      border-radius: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      transition: var(--transition);
       cursor: pointer;
-      transition: all 0.2s;
     }
 
     .friend-card:hover {
-      background: rgba(0,240,255,0.1);
-      border-color: rgba(0,240,255,0.4);
+      background: var(--bg-hover);
+      border-color: #d0d4dc;
+      transform: translateX(4px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .friend-left {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      gap: 1rem;
     }
 
     .friend-avatar {
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: var(--neon-cyan);
+      background: var(--accent-gradient);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #000;
+      color: white;
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1rem;
+      flex-shrink: 0;
     }
 
-    .friend-info { flex: 1; margin-left: 1rem; }
-    .friend-name { font-weight: 600; }
+    .friend-info {
+      display: flex;
+      flex-direction: column;
+    }
 
+    .friend-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+
+    .friend-phone {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .friend-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .friend-actions .btn {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.4;
+    }
+
+    .empty-state-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .empty-state-desc {
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Chat Box */
     .chat-box {
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(0,240,255,0.2);
-      border-radius: 2rem;
-      padding: 1.2rem;
       display: none;
       flex-direction: column;
-      gap: 0.8rem;
       flex: 1;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      overflow: hidden;
     }
 
-    .chat-box.active { display: flex; }
+    .chat-box.active {
+      display: flex;
+    }
+
+    .chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-primary);
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .chat-partner {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .chat-partner-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .chat-header-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
 
     .messages {
       flex: 1;
-      min-height: 300px;
-      max-height: 500px;
+      padding: 1.25rem;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      padding: 0.5rem;
+      min-height: 300px;
+      max-height: 500px;
+      background: var(--bg-secondary);
     }
 
     .msg {
-      padding: 0.5rem 1rem;
-      border-radius: 1.5rem;
-      max-width: 75%;
-      border: 1px solid rgba(0,240,255,0.3);
-      background: rgba(0,240,255,0.08);
+      padding: 0.6rem 1rem;
+      border-radius: 14px;
+      max-width: 70%;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      word-wrap: break-word;
+      animation: msgIn 0.2s ease;
     }
 
-    .msg.self {
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.received {
+      align-self: flex-start;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+
+    .msg.sent {
       align-self: flex-end;
-      background: rgba(0,240,255,0.18);
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      box-shadow: 0 4px 12px var(--accent-glow);
     }
 
-    .input-row { display: flex; gap: 0.5rem; }
+    .msg-center {
+      align-self: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
 
-    .input {
+    .chat-input-area {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-primary);
+    }
+
+    .chat-input {
       flex: 1;
-      background: transparent;
-      border: 1px solid var(--neon-cyan);
-      border-radius: 2rem;
-      padding: 0.7rem 1.2rem;
-      color: var(--neon-cyan);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.6rem 1rem;
+      color: var(--text-primary);
       outline: none;
-      font-family: var(--font-sf);
+      font-family: var(--font);
+      font-size: 0.9rem;
+      transition: var(--transition);
     }
 
+    .chat-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    /* Add Friend */
+    .add-friend-area {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+    }
+
+    .add-friend-area .input {
+      flex: 1;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.6rem 1rem;
+      color: var(--text-primary);
+      outline: none;
+      font-family: var(--font);
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .add-friend-area .input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    /* Requests */
+    .pending-requests {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .request-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+    }
+
+    .request-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .request-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--warning);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .request-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* Call Overlay */
     .call-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95);
-      backdrop-filter: blur(30px);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(40px);
       display: none;
       flex-direction: column;
       align-items: center;
@@ -311,7 +769,9 @@
       gap: 2rem;
     }
 
-    .call-overlay.active { display: flex; }
+    .call-overlay.active {
+      display: flex;
+    }
 
     .video-grid {
       display: flex;
@@ -321,14 +781,14 @@
     }
 
     .video-container {
-      width: 400px;
-      height: 300px;
-      background: #000;
-      border: 2px solid var(--neon-cyan);
-      border-radius: 2rem;
+      width: 420px;
+      height: 320px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: 0 0 40px rgba(0,240,255,0.3);
       position: relative;
+      box-shadow: var(--shadow-lg);
     }
 
     .video-container video {
@@ -339,199 +799,336 @@
 
     .video-label {
       position: absolute;
-      bottom: 10px;
-      left: 15px;
-      background: rgba(0,0,0,0.7);
-      padding: 0.3rem 1rem;
-      border-radius: 2rem;
+      bottom: 12px;
+      left: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      padding: 0.2rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      box-shadow: var(--shadow-sm);
     }
 
     .call-controls {
       display: flex;
-      gap: 2rem;
-      background: rgba(0,240,255,0.05);
-      padding: 1rem 2.5rem;
-      border-radius: 4rem;
-      border: 1px solid rgba(0,240,255,0.3);
+      gap: 1.5rem;
+      background: var(--bg-secondary);
+      backdrop-filter: blur(12px);
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
     }
 
     .ctrl-btn {
-      background: rgba(0,240,255,0.1);
-      border: none;
-      color: var(--neon-cyan);
-      font-size: 1.8rem;
-      width: 60px;
-      height: 60px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 1.4rem;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       cursor: pointer;
+      transition: var(--transition);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .ctrl-btn.end { background: #ff3366; color: white; }
+    .ctrl-btn:hover {
+      background: var(--bg-hover);
+      transform: scale(1.05);
+    }
 
+    .ctrl-btn.end {
+      background: var(--danger);
+      color: white;
+      border-color: var(--danger);
+    }
+
+    .ctrl-btn.end:hover {
+      background: #e55a5a;
+      transform: scale(1.05);
+    }
+
+    /* Incoming Call */
     .incoming-call {
       position: fixed;
       top: 2rem;
       left: 50%;
-      transform: translateX(-50%);
-      background: #0A0A0A;
-      border: 2px solid var(--neon-cyan);
-      border-radius: 2rem;
+      transform: translateX(-50%) scale(0.95);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
       padding: 1.5rem 2.5rem;
       z-index: 2500;
       display: none;
       text-align: center;
-      box-shadow: 0 0 30px rgba(0,240,255,0.5);
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .incoming-call.active { display: block; }
+    .incoming-call.active {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
 
+    .incoming-call .ringing-indicator {
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+
+    .incoming-call-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1.25rem;
+    }
+
+    /* Notification */
     .notification {
       position: fixed;
       bottom: 2rem;
       left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,240,255,0.15);
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-secondary);
       backdrop-filter: blur(20px);
-      padding: 0.8rem 2rem;
-      border-radius: 3rem;
-      border: 1px solid var(--neon-cyan);
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      border: 1px solid var(--border-color);
       z-index: 3000;
       display: none;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.9rem;
+      color: var(--text-primary);
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.1); opacity: 0.8; }
-      100% { transform: scale(1); opacity: 1; }
+    .notification.show {
+      display: block;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
-    .ringing-indicator {
-      animation: pulse 1s infinite;
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 200px;
+        padding: 1rem;
+      }
+      .video-container {
+        width: 320px;
+        height: 240px;
+      }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
+      body { padding: 0.5rem; }
+      .app-container {
+        height: 98vh;
+        border-radius: var(--radius);
+      }
+      .header { padding: 0.5rem 1rem; }
+      .logo { font-size: 1.1rem; }
+      .logo-icon { width: 28px; height: 28px; font-size: 0.9rem; }
+      .user-info { display: none; }
       .main-content { flex-direction: column; }
-      .sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; }
-      .video-container { width: 280px; height: 200px; }
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        padding: 0.5rem 1rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        overflow-x: auto;
+      }
+      .nav-item { flex-shrink: 0; padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+      .central-panel { padding: 1rem; }
+      .video-grid { flex-direction: column; align-items: center; }
+      .video-container { width: 100%; max-width: 400px; height: 260px; }
+      .call-controls { padding: 0.5rem 1.5rem; gap: 1rem; }
+      .ctrl-btn { width: 42px; height: 42px; font-size: 1.1rem; }
+      .modal { padding: 1.5rem; }
+      .friend-actions .btn { padding: 0.25rem 0.6rem; font-size: 0.7rem; }
     }
   </style>
 </head>
 <body>
   <div class="app-container">
+    <!-- Header -->
     <header class="header">
-      <div class="logo">💬 talkme</div>
-      <div id="authArea">
-        <button class="btn btn-outline" id="loginBtn">🔐 Login</button>
-        <button class="btn btn-primary" id="signupBtn">✨ Sign Up</button>
+      <div class="logo">
+        <span class="logo-icon">💬</span>
+        talkme
       </div>
-      <div id="profileArea" style="display:none; align-items:center; gap:1rem;">
-        <span id="userAvatar" style="font-size:1.5rem;">😎</span>
-        <span id="userName" style="font-weight:600;">User</span>
-        <span id="userPhone" style="font-size:0.85rem; opacity:0.7;"></span>
-        <button class="btn btn-outline" id="logoutBtn" style="padding:0.4rem 1.2rem;">↪ Logout</button>
+      
+      <div id="authArea" class="header-actions">
+        <button class="btn btn-ghost" id="loginBtn">Login</button>
+        <button class="btn btn-primary" id="signupBtn">Get Started</button>
+      </div>
+      
+      <div id="profileArea" class="profile-area">
+        <div class="user-info">
+          <span class="user-name" id="userName">User</span>
+          <span class="user-phone" id="userPhone">+977 98XXXXXXXX</span>
+        </div>
+        <div class="avatar" id="userAvatar">U</div>
+        <button class="btn btn-ghost btn-sm" id="logoutBtn">Logout</button>
       </div>
     </header>
 
+    <!-- Auth Modal -->
     <div class="modal-overlay" id="authModal">
       <div class="modal">
         <div id="signupForm">
-          <h2>✨ Create Account</h2>
+          <h2>Create Account</h2>
+          <p class="modal-subtitle">Join talkme and start connecting</p>
+          
           <div class="input-group">
             <label>Full Name</label>
             <input type="text" id="signupName" placeholder="Enter your name" minlength="2">
-            <div class="error-msg" id="nameError"></div>
+            <div class="error-msg" id="nameError">Name must be at least 2 characters</div>
           </div>
+          
           <div class="input-group">
             <label>Phone Number</label>
             <div class="phone-input">
               <input type="text" class="country-code" value="+977" readonly>
-              <input type="tel" id="signupPhone" placeholder="Enter phone number" maxlength="10">
+              <input type="tel" id="signupPhone" placeholder="98XXXXXXXX" maxlength="10">
             </div>
-            <div class="error-msg" id="signupPhoneError"></div>
+            <div class="error-msg" id="signupPhoneError">Enter a valid 10-digit Nepal number</div>
           </div>
+          
           <div class="input-group">
             <label>Password</label>
-            <input type="password" id="signupPassword" placeholder="Create password (min 8 chars)" minlength="8">
+            <input type="password" id="signupPassword" placeholder="Create a strong password" minlength="8">
             <div class="password-strength">
               <div class="password-strength-bar" id="passwordStrengthBar"></div>
             </div>
-            <div class="error-msg" id="signupPasswordError"></div>
+            <div class="error-msg" id="signupPasswordError">Password too weak</div>
           </div>
+          
           <div class="input-group">
             <label>Confirm Password</label>
-            <input type="password" id="signupConfirmPassword" placeholder="Confirm password">
-            <div class="error-msg" id="confirmPasswordError"></div>
+            <input type="password" id="signupConfirmPassword" placeholder="Confirm your password">
+            <div class="error-msg" id="confirmPasswordError">Passwords do not match</div>
           </div>
-          <button class="btn btn-primary" id="submitSignupBtn" style="width:100%; margin-top:1rem;">Create Account</button>
-          <p style="text-align:center; margin-top:1rem; opacity:0.7;">Already have account? <a href="#" id="switchToLogin" style="color:var(--neon-cyan);">Login</a></p>
+          
+          <button class="btn btn-primary" id="submitSignupBtn" style="width:100%;">Create Account</button>
+          
+          <div class="modal-footer">
+            Already have an account? <a id="switchToLogin">Login</a>
+          </div>
         </div>
         
         <div id="loginForm" style="display:none;">
-          <h2>🔐 Welcome Back</h2>
+          <h2>Welcome Back</h2>
+          <p class="modal-subtitle">Sign in to continue your conversations</p>
+          
           <div class="input-group">
             <label>Phone Number</label>
             <div class="phone-input">
               <input type="text" class="country-code" value="+977" readonly>
-              <input type="tel" id="loginPhone" placeholder="Enter phone number" maxlength="10">
+              <input type="tel" id="loginPhone" placeholder="98XXXXXXXX" maxlength="10">
             </div>
-            <div class="error-msg" id="loginPhoneError"></div>
+            <div class="error-msg" id="loginPhoneError">Enter a valid phone number</div>
           </div>
+          
           <div class="input-group">
             <label>Password</label>
-            <input type="password" id="loginPassword" placeholder="Enter password">
-            <div class="error-msg" id="loginPasswordError"></div>
+            <input type="password" id="loginPassword" placeholder="Enter your password">
+            <div class="error-msg" id="loginPasswordError">Invalid phone or password</div>
           </div>
-          <button class="btn btn-primary" id="submitLoginBtn" style="width:100%; margin-top:1rem;">Login</button>
-          <p style="text-align:center; margin-top:1rem; opacity:0.7;">Don't have account? <a href="#" id="switchToSignup" style="color:var(--neon-cyan);">Sign Up</a></p>
+          
+          <button class="btn btn-primary" id="submitLoginBtn" style="width:100%;">Login</button>
+          
+          <div class="modal-footer">
+            Don't have an account? <a id="switchToSignup">Sign Up</a>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
+      <!-- Sidebar -->
       <aside class="sidebar">
         <div class="nav-item active" id="homeTab">🏠 Home</div>
-        <div class="nav-item" id="friendsTab">👥 Friends (<span id="friendCount">0</span>)</div>
-        <div class="nav-item" id="requestsTab">📨 Requests (<span id="requestCount">0</span>)</div>
+        <div class="nav-item" id="friendsTab">
+          👥 Friends
+          <span class="badge" id="friendCount">0</span>
+        </div>
+        <div class="nav-item" id="requestsTab">
+          📨 Requests
+          <span class="badge" id="requestCount">0</span>
+        </div>
       </aside>
 
+      <!-- Central Panel -->
       <main class="central-panel">
+        <!-- Friends List View -->
         <div class="friends-list" id="friendsListView">
-          <h3 style="margin-bottom:1rem;">👥 Your Friends</h3>
-          <div id="friendsContainer"><div style="text-align:center; padding:3rem; opacity:0.7;">No friends yet</div></div>
+          <div class="section-header">
+            <span class="section-title">Your Friends</span>
+            <span class="section-count" id="friendCountLabel">0 friends</span>
+          </div>
+          
+          <div class="friends-container" id="friendsContainer">
+            <div class="empty-state">
+              <div class="empty-state-icon">👥</div>
+              <div class="empty-state-title">No friends yet</div>
+              <div class="empty-state-desc">Add friends using their phone number below</div>
+            </div>
+          </div>
         </div>
 
+        <!-- Chat Box -->
         <div class="chat-box" id="chatBox">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="display:flex; align-items:center; gap:0.5rem;">
-              <button class="btn btn-outline" id="backToFriendsBtn" style="padding:0.4rem 1rem;">← Back</button>
-              <span>💬 <strong id="chatPartner">nobody</strong></span>
+          <div class="chat-header">
+            <div class="chat-header-left">
+              <button class="btn btn-ghost btn-sm" id="backToFriendsBtn">← Back</button>
+              <div>
+                <div class="chat-partner" id="chatPartner">Select a friend</div>
+                <div class="chat-partner-status" id="chatPartnerStatus">● offline</div>
+              </div>
             </div>
-            <div style="display:flex; gap:0.5rem;">
-              <button class="btn btn-outline" id="voiceMsgBtn" style="padding:0.4rem 1rem;">🎤</button>
-              <button class="btn btn-primary" id="startVideoCallBtn" style="padding:0.4rem 1rem;">📹 Call</button>
+            <div class="chat-header-actions">
+              <button class="btn btn-ghost btn-sm" id="voiceMsgBtn">🎤</button>
+              <button class="btn btn-primary btn-sm" id="startVideoCallBtn">📹 Call</button>
             </div>
           </div>
+          
           <div class="messages" id="messagesContainer">
-            <div class="msg" style="align-self:center;">Select a friend to chat</div>
+            <div class="msg msg-center">Start a conversation</div>
           </div>
-          <div class="input-row">
-            <input type="text" class="input" id="chatInput" placeholder="Type message...">
+          
+          <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type a message...">
             <button class="btn btn-primary" id="sendMsgBtn">Send</button>
           </div>
         </div>
 
-        <div style="display:flex; gap:0.5rem;">
-          <input type="text" class="input" id="friendNameInput" placeholder="Friend's phone number">
-          <button class="btn btn-primary" id="sendRequestBtn">➕ Add Friend</button>
+        <!-- Add Friend & Requests -->
+        <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:auto;">
+          <div class="add-friend-area">
+            <input type="text" class="input" id="friendNameInput" placeholder="Friend's phone number (e.g., 98XXXXXXXX)">
+            <button class="btn btn-primary" id="sendRequestBtn">Add Friend</button>
+          </div>
+          <div class="pending-requests" id="pendingRequests"></div>
         </div>
-        <div id="pendingRequests"></div>
       </main>
     </div>
   </div>
 
+  <!-- Call Overlay -->
   <div class="call-overlay" id="callOverlay">
     <div class="video-grid">
       <div class="video-container">
@@ -550,208 +1147,131 @@
     </div>
   </div>
 
+  <!-- Incoming Call -->
   <div class="incoming-call" id="incomingCall">
-    <div style="font-size:1.2rem; margin-bottom:1rem;" class="ringing-indicator">📞 <span id="incomingCallerName"></span> is calling...</div>
-    <div style="display:flex; gap:1rem; justify-content:center;">
-      <button class="btn btn-primary" id="acceptCallBtn">✅ Accept</button>
-      <button class="btn btn-outline" id="rejectCallBtn">❌ Reject</button>
+    <div style="font-size:1.2rem; margin-bottom:0.5rem;" class="ringing-indicator">📞</div>
+    <div style="font-size:1.1rem; font-weight:600;">Incoming Call</div>
+    <div style="color:var(--text-secondary); margin-bottom:1rem;">
+      <span id="incomingCallerName">Unknown</span> is calling...
+    </div>
+    <div class="incoming-call-actions">
+      <button class="btn btn-primary" id="acceptCallBtn">Accept</button>
+      <button class="btn btn-danger" id="rejectCallBtn">Decline</button>
     </div>
   </div>
 
+  <!-- Notification -->
   <div class="notification" id="notification"></div>
 
   <script type="module">
     // ============ DEBUG MODE ============
     const DEBUG = true;
     function debugLog(...args) {
-      if (DEBUG) {
-        console.log('[talkme]', ...args);
-      }
+      if (DEBUG) console.log('[talkme]', ...args);
     }
 
-    // ============ SUPABASE CONFIGURATION ============
+    // ============ SUPABASE ============
     const SUPABASE_URL = 'https://pbrvxxdmiuobsrmrdbcw.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_o5llzir6W8_tTnMX8TYn1w_DqfVXCP2';
-    
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ============ AUDIO SYSTEM ============
+    // ============ AUDIO ============
     let audioContext = null;
     let ringingInterval = null;
-    let ringingOscillator = null;
 
     function getAudioContext() {
-      if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
+      if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
       return audioContext;
     }
 
-    // Play message notification sound
     function playMessageSound() {
       try {
         const ctx = getAudioContext();
-        const oscillator = ctx.createOscillator();
-        const gainNode = ctx.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(ctx.destination);
-        
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(880, ctx.currentTime);
-        oscillator.frequency.setValueAtTime(1100, ctx.currentTime + 0.1);
-        
-        gainNode.gain.setValueAtTime(0, ctx.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05);
-        gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.3);
-        
-        oscillator.start(ctx.currentTime);
-        oscillator.stop(ctx.currentTime + 0.3);
-      } catch (err) {
-        console.error('Error playing message sound:', err);
-      }
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.setValueAtTime(1100, ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.05);
+        gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.25);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.25);
+      } catch (e) { console.error('Audio error:', e); }
     }
 
-    // Play ringing sound (for caller)
     function playRingingSound() {
       try {
         const ctx = getAudioContext();
-        
-        function playTone(frequency, duration, startTime) {
-          const oscillator = ctx.createOscillator();
-          const gainNode = ctx.createGain();
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(ctx.destination);
-          
-          oscillator.type = 'sine';
-          oscillator.frequency.setValueAtTime(frequency, startTime);
-          
-          gainNode.gain.setValueAtTime(0, startTime);
-          gainNode.gain.linearRampToValueAtTime(0.3, startTime + 0.05);
-          gainNode.gain.linearRampToValueAtTime(0, startTime + duration - 0.05);
-          
-          oscillator.start(startTime);
-          oscillator.stop(startTime + duration);
+        function tone(freq, dur, start) {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination);
+          o.type = 'sine'; o.frequency.setValueAtTime(freq, start);
+          g.gain.setValueAtTime(0, start);
+          g.gain.linearRampToValueAtTime(0.25, start + 0.05);
+          g.gain.linearRampToValueAtTime(0, start + dur - 0.05);
+          o.start(start); o.stop(start + dur);
         }
-
-        let time = ctx.currentTime;
-        for (let i = 0; i < 2; i++) {
-          playTone(440, 0.4, time);
-          playTone(480, 0.4, time + 0.45);
-          time += 1.5;
-        }
-        
+        let t = ctx.currentTime;
+        for (let i = 0; i < 2; i++) { tone(440, 0.3, t); tone(480, 0.3, t + 0.35); t += 1.2; }
         ringingInterval = setInterval(() => {
           if (ctx.state === 'suspended') ctx.resume();
-          let t = ctx.currentTime;
-          for (let i = 0; i < 2; i++) {
-            playTone(440, 0.4, t);
-            playTone(480, 0.4, t + 0.45);
-            t += 1.5;
-          }
-        }, 3000);
-        
-      } catch (err) {
-        console.error('Error playing ringing sound:', err);
-      }
+          let t2 = ctx.currentTime;
+          for (let i = 0; i < 2; i++) { tone(440, 0.3, t2); tone(480, 0.3, t2 + 0.35); t2 += 1.2; }
+        }, 2500);
+      } catch (e) { console.error('Ringing error:', e); }
     }
 
-    // Play incoming call sound (for receiver)
     function playIncomingCallSound() {
       try {
         const ctx = getAudioContext();
-        
-        function playTone(frequency, duration, startTime) {
-          const oscillator = ctx.createOscillator();
-          const gainNode = ctx.createGain();
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(ctx.destination);
-          
-          oscillator.type = 'square';
-          oscillator.frequency.setValueAtTime(frequency, startTime);
-          
-          gainNode.gain.setValueAtTime(0, startTime);
-          gainNode.gain.linearRampToValueAtTime(0.4, startTime + 0.05);
-          gainNode.gain.linearRampToValueAtTime(0, startTime + duration - 0.05);
-          
-          oscillator.start(startTime);
-          oscillator.stop(startTime + duration);
+        function tone(freq, dur, start) {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination);
+          o.type = 'square'; o.frequency.setValueAtTime(freq, start);
+          g.gain.setValueAtTime(0, start);
+          g.gain.linearRampToValueAtTime(0.3, start + 0.05);
+          g.gain.linearRampToValueAtTime(0, start + dur - 0.05);
+          o.start(start); o.stop(start + dur);
         }
-
-        let time = ctx.currentTime;
-        for (let i = 0; i < 3; i++) {
-          playTone(800, 0.2, time);
-          playTone(1000, 0.2, time + 0.25);
-          time += 0.7;
-        }
-        
+        let t = ctx.currentTime;
+        for (let i = 0; i < 3; i++) { tone(800, 0.15, t); tone(1000, 0.15, t + 0.2); t += 0.6; }
         ringingInterval = setInterval(() => {
           if (ctx.state === 'suspended') ctx.resume();
-          let t = ctx.currentTime;
-          for (let i = 0; i < 3; i++) {
-            playTone(800, 0.2, t);
-            playTone(1000, 0.2, t + 0.25);
-            t += 0.7;
-          }
-        }, 2000);
-        
-      } catch (err) {
-        console.error('Error playing incoming call sound:', err);
-      }
+          let t2 = ctx.currentTime;
+          for (let i = 0; i < 3; i++) { tone(800, 0.15, t2); tone(1000, 0.15, t2 + 0.2); t2 += 0.6; }
+        }, 1800);
+      } catch (e) { console.error('Incoming error:', e); }
     }
 
     function stopRingingSounds() {
-      if (ringingInterval) {
-        clearInterval(ringingInterval);
-        ringingInterval = null;
-      }
-      if (ringingOscillator) {
-        try { ringingOscillator.stop(); } catch(e) {}
-        ringingOscillator = null;
-      }
+      if (ringingInterval) { clearInterval(ringingInterval); ringingInterval = null; }
     }
 
     function playBusyTone() {
       try {
         const ctx = getAudioContext();
-        
-        function playTone(frequency, duration, startTime) {
-          const oscillator = ctx.createOscillator();
-          const gainNode = ctx.createGain();
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(ctx.destination);
-          
-          oscillator.type = 'sine';
-          oscillator.frequency.setValueAtTime(frequency, startTime);
-          
-          gainNode.gain.setValueAtTime(0, startTime);
-          gainNode.gain.linearRampToValueAtTime(0.3, startTime + 0.05);
-          gainNode.gain.linearRampToValueAtTime(0, startTime + duration - 0.05);
-          
-          oscillator.start(startTime);
-          oscillator.stop(startTime + duration);
+        function tone(freq, dur, start) {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.connect(g); g.connect(ctx.destination);
+          o.type = 'sine'; o.frequency.setValueAtTime(freq, start);
+          g.gain.setValueAtTime(0, start);
+          g.gain.linearRampToValueAtTime(0.2, start + 0.05);
+          g.gain.linearRampToValueAtTime(0, start + dur - 0.05);
+          o.start(start); o.stop(start + dur);
         }
-
-        let time = ctx.currentTime;
-        for (let i = 0; i < 3; i++) {
-          playTone(480, 0.25, time);
-          time += 0.5;
-        }
-        
-      } catch (err) {
-        console.error('Error playing busy tone:', err);
-      }
+        let t = ctx.currentTime;
+        for (let i = 0; i < 3; i++) { tone(480, 0.2, t); t += 0.4; }
+      } catch (e) { console.error('Busy error:', e); }
     }
 
-    // ============ SECURITY UTILITIES ============
+    // ============ UTILITIES ============
     async function hashPassword(password) {
       const encoder = new TextEncoder();
       const data = encoder.encode(password);
       const hash = await crypto.subtle.digest('SHA-256', data);
-      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
     }
 
     function checkPasswordStrength(password) {
@@ -762,22 +1282,27 @@
       if (/[a-z]/.test(password)) score++;
       if (/[0-9]/.test(password)) score++;
       if (/[^A-Za-z0-9]/.test(password)) score++;
-      
       if (score <= 2) return { strength: 'weak', class: 'strength-weak' };
       if (score <= 4) return { strength: 'medium', class: 'strength-medium' };
       return { strength: 'strong', class: 'strength-strong' };
     }
 
-    function sanitizeInput(input) {
-      return input.replace(/[<>]/g, '');
+    function sanitizeInput(input) { return input.replace(/[<>]/g, ''); }
+
+    function validatePhone(phone) { return /^9[678]\d{8}$/.test(phone); }
+
+    function notify(msg) {
+      debugLog('Notification:', msg);
+      const el = document.getElementById('notification');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 3000);
     }
 
     // ============ APP STATE ============
     let currentUser = null;
     let friends = [];
     let activeChatFriend = null;
-    
-    // WebRTC State
     let localStream = null;
     let peerConnection = null;
     let isInCall = false;
@@ -794,33 +1319,19 @@
       ]
     };
 
-    function notify(msg) {
-      debugLog('Notification:', msg);
-      document.getElementById('notification').textContent = msg;
-      document.getElementById('notification').style.display = 'block';
-      setTimeout(() => document.getElementById('notification').style.display = 'none', 3000);
-    }
-
-    function validatePhone(phone) {
-      return /^9[678]\d{8}$/.test(phone);
-    }
-
-    // ============ PASSWORD STRENGTH INDICATOR ============
-    document.getElementById('signupPassword').addEventListener('input', (e) => {
-      const password = e.target.value;
-      const strengthBar = document.getElementById('passwordStrengthBar');
-      strengthBar.className = 'password-strength-bar';
-      
-      if (password.length === 0) {
-        strengthBar.style.width = '0';
-        return;
-      }
-      
-      const { class: strengthClass } = checkPasswordStrength(password);
-      strengthBar.classList.add(strengthClass);
+    // ============ AUTH ============
+    document.getElementById('signupBtn').addEventListener('click', () => {
+      document.getElementById('authModal').classList.add('active');
+      document.getElementById('signupForm').style.display = 'block';
+      document.getElementById('loginForm').style.display = 'none';
     });
 
-    // ============ FORM SWITCHING ============
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      document.getElementById('authModal').classList.add('active');
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('signupForm').style.display = 'none';
+    });
+
     document.getElementById('switchToLogin').addEventListener('click', (e) => {
       e.preventDefault();
       document.getElementById('signupForm').style.display = 'none';
@@ -833,203 +1344,60 @@
       document.getElementById('signupForm').style.display = 'block';
     });
 
-    // ============ AUTHENTICATION ============
-    document.getElementById('signupBtn').addEventListener('click', () => {
-      document.getElementById('authModal').classList.add('active');
-      document.getElementById('signupForm').style.display = 'block';
-      document.getElementById('loginForm').style.display = 'none';
-      clearSignupErrors();
+    document.getElementById('signupPassword').addEventListener('input', (e) => {
+      const password = e.target.value;
+      const bar = document.getElementById('passwordStrengthBar');
+      bar.className = 'password-strength-bar';
+      if (!password) { bar.style.width = '0'; return; }
+      const { class: cls } = checkPasswordStrength(password);
+      bar.classList.add(cls);
     });
 
-    document.getElementById('loginBtn').addEventListener('click', () => {
-      document.getElementById('authModal').classList.add('active');
-      document.getElementById('loginForm').style.display = 'block';
-      document.getElementById('signupForm').style.display = 'none';
-      clearLoginErrors();
-    });
-
-    function clearSignupErrors() {
-      ['nameError', 'signupPhoneError', 'signupPasswordError', 'confirmPasswordError'].forEach(id => {
-        document.getElementById(id).classList.remove('show');
-      });
-    }
-
-    function clearLoginErrors() {
-      ['loginPhoneError', 'loginPasswordError'].forEach(id => {
-        document.getElementById(id).classList.remove('show');
-      });
-    }
-
-    // Sign Up
     document.getElementById('submitSignupBtn').addEventListener('click', async () => {
-      clearSignupErrors();
-      let hasError = false;
-      
       const name = sanitizeInput(document.getElementById('signupName').value.trim());
       const phone = document.getElementById('signupPhone').value.trim();
       const password = document.getElementById('signupPassword').value;
-      const confirmPassword = document.getElementById('signupConfirmPassword').value;
-
-      // Validate name
-      if (name.length < 2) {
-        document.getElementById('nameError').textContent = 'Name must be at least 2 characters';
-        document.getElementById('nameError').classList.add('show');
-        hasError = true;
-      }
-
-      // Validate phone
-      if (!validatePhone(phone)) {
-        document.getElementById('signupPhoneError').textContent = 'Enter valid 10-digit Nepal number';
-        document.getElementById('signupPhoneError').classList.add('show');
-        hasError = true;
-      }
-
-      // Validate password strength
-      const { strength } = checkPasswordStrength(password);
-      if (strength === 'weak') {
-        document.getElementById('signupPasswordError').textContent = 'Password too weak. Use 8+ chars with mix of letters, numbers & symbols';
-        document.getElementById('signupPasswordError').classList.add('show');
-        hasError = true;
-      }
-
-      // Validate passwords match
-      if (password !== confirmPassword) {
-        document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
-        document.getElementById('confirmPasswordError').classList.add('show');
-        hasError = true;
-      }
-
-      if (hasError) return;
-
-      try {
-        debugLog('Attempting signup for:', phone);
-        
-        // Check if phone already registered
-        const { data: existingUser } = await supabase
-          .from('users')
-          .select('phone')
-          .eq('phone', phone)
-          .maybeSingle();
-
-        if (existingUser) {
-          document.getElementById('signupPhoneError').textContent = 'Phone number already registered';
-          document.getElementById('signupPhoneError').classList.add('show');
-          return;
-        }
-
-        // Hash password
-        const hashedPassword = await hashPassword(password);
-
-        // Create user
-        const { data: newUser, error } = await supabase
-          .from('users')
-          .insert({
-            name: name,
-            phone: phone,
-            password_hash: hashedPassword,
-            avatar: '😎'
-          })
-          .select()
-          .single();
-
-        if (error) {
-          console.error('Signup error details:', error);
-          
-          if (error.message.includes('row-level security')) {
-            notify('RLS policy is blocking signup. Please run the SQL setup script first.');
-            return;
-          }
-          
-          notify('Error creating account: ' + error.message);
-          return;
-        }
-
-        debugLog('User created successfully:', newUser);
-        currentUser = newUser;
-        localStorage.setItem('talkme_user_id', currentUser.id);
-        document.getElementById('authModal').classList.remove('active');
-        onLoginSuccess();
-        notify(`Welcome, ${name}! 👋`);
-      } catch (err) {
-        console.error('Signup error:', err);
-        notify('Error creating account. Please try again.');
-      }
-    });
-
-    // Login
-    document.getElementById('submitLoginBtn').addEventListener('click', async () => {
-      clearLoginErrors();
-      let hasError = false;
+      const confirm = document.getElementById('signupConfirmPassword').value;
       
-      const phone = document.getElementById('loginPhone').value.trim();
-      const password = document.getElementById('loginPassword').value;
-
-      // Validate phone
-      if (!validatePhone(phone)) {
-        document.getElementById('loginPhoneError').textContent = 'Enter valid phone number';
-        document.getElementById('loginPhoneError').classList.add('show');
-        hasError = true;
-      }
-
-      // Validate password
-      if (!password) {
-        document.getElementById('loginPasswordError').textContent = 'Password is required';
-        document.getElementById('loginPasswordError').classList.add('show');
-        hasError = true;
-      }
-
+      let hasError = false;
+      if (name.length < 2) { document.getElementById('nameError').classList.add('show'); hasError = true; }
+      if (!validatePhone(phone)) { document.getElementById('signupPhoneError').classList.add('show'); hasError = true; }
+      const { strength } = checkPasswordStrength(password);
+      if (strength === 'weak') { document.getElementById('signupPasswordError').classList.add('show'); hasError = true; }
+      if (password !== confirm) { document.getElementById('confirmPasswordError').classList.add('show'); hasError = true; }
       if (hasError) return;
 
       try {
-        debugLog('Attempting login for:', phone);
-        
-        // Hash password
-        const hashedPassword = await hashPassword(password);
-
-        // Check credentials
-        const { data: user, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('phone', phone)
-          .eq('password_hash', hashedPassword)
-          .maybeSingle();
-
-        if (error || !user) {
-          document.getElementById('loginPasswordError').textContent = 'Invalid phone or password';
-          document.getElementById('loginPasswordError').classList.add('show');
-          return;
-        }
-
-        debugLog('Login successful:', user);
-        
-        // Update last login
-        await supabase
-          .from('users')
-          .update({ last_login: new Date().toISOString() })
-          .eq('id', user.id);
-
+        const hashed = await hashPassword(password);
+        const { data: user, error } = await supabase.from('users').insert({
+          name, phone, password_hash: hashed, avatar: '😎'
+        }).select().single();
+        if (error) { notify('Error: ' + error.message); return; }
         currentUser = user;
         localStorage.setItem('talkme_user_id', currentUser.id);
         document.getElementById('authModal').classList.remove('active');
         onLoginSuccess();
-        notify(`Welcome back, ${user.name}! 👋`);
-      } catch (err) {
-        console.error('Login error:', err);
-        notify('Error logging in. Please try again.');
-      }
+        notify(`Welcome, ${name}!`);
+      } catch (err) { notify('Error creating account'); console.error(err); }
     });
 
-    function onLoginSuccess() {
-      document.getElementById('authArea').style.display = 'none';
-      document.getElementById('profileArea').style.display = 'flex';
-      document.getElementById('userName').textContent = currentUser.name;
-      document.getElementById('userAvatar').textContent = currentUser.avatar || '😎';
-      document.getElementById('userPhone').textContent = `+977 ${currentUser.phone}`;
-      setupRealtimeSubscriptions();
-      loadFriends();
-      loadFriendRequests();
-      showFriendsList();
-    }
+    document.getElementById('submitLoginBtn').addEventListener('click', async () => {
+      const phone = document.getElementById('loginPhone').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      if (!validatePhone(phone)) { document.getElementById('loginPhoneError').classList.add('show'); return; }
+      if (!password) { document.getElementById('loginPasswordError').classList.add('show'); return; }
+
+      try {
+        const hashed = await hashPassword(password);
+        const { data: user } = await supabase.from('users').select('*').eq('phone', phone).eq('password_hash', hashed).maybeSingle();
+        if (!user) { document.getElementById('loginPasswordError').classList.add('show'); return; }
+        currentUser = user;
+        localStorage.setItem('talkme_user_id', currentUser.id);
+        document.getElementById('authModal').classList.remove('active');
+        onLoginSuccess();
+        notify(`Welcome back, ${user.name}!`);
+      } catch (err) { notify('Login error'); console.error(err); }
+    });
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
       if (isInCall) hangupCall();
@@ -1037,35 +1405,36 @@
       if (callChannel) supabase.removeChannel(callChannel);
       if (messageChannel) supabase.removeChannel(messageChannel);
       stopRingingSounds();
-      currentUser = null;
-      friends = [];
-      activeChatFriend = null;
-      document.getElementById('authArea').style.display = 'block';
-      document.getElementById('profileArea').style.display = 'none';
+      currentUser = null; friends = []; activeChatFriend = null;
+      document.getElementById('authArea').style.display = 'flex';
+      document.getElementById('profileArea').classList.remove('visible');
       showFriendsList();
-      updateUI();
-      notify('Logged out');
     });
 
-    // ============ SESSION PERSISTENCE ============
+    function onLoginSuccess() {
+      document.getElementById('authArea').style.display = 'none';
+      document.getElementById('profileArea').classList.add('visible');
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userPhone').textContent = `+977 ${currentUser.phone}`;
+      document.getElementById('userAvatar').textContent = currentUser.name[0] || 'U';
+      setupRealtimeSubscriptions();
+      loadFriends();
+      loadFriendRequests();
+      showFriendsList();
+    }
+
     async function loadSession() {
       const userId = localStorage.getItem('talkme_user_id');
       if (userId) {
-        debugLog('Loading session for user:', userId);
         const { data: user } = await supabase.from('users').select('*').eq('id', userId).maybeSingle();
-        if (user) {
-          currentUser = user;
-          onLoginSuccess();
-          return true;
-        }
+        if (user) { currentUser = user; onLoginSuccess(); return true; }
       }
       return false;
     }
 
-    // ============ SUPABASE REALTIME ============
+    // ============ REALTIME ============
     async function setupRealtimeSubscriptions() {
       if (!currentUser) return;
-      
       callChannel = supabase.channel('call-signaling')
         .on('broadcast', { event: 'call-offer' }, (p) => {
           if (p.payload.to === currentUser.phone) handleIncomingCall(p.payload.from, p.payload.data);
@@ -1084,424 +1453,163 @@
         })
         .subscribe();
 
-      messageChannel = supabase
-        .channel('messages')
-        .on('postgres_changes', { 
-          event: 'INSERT', 
-          schema: 'public', 
-          table: 'messages', 
-          filter: `receiver_id=eq.${currentUser.id}` 
-        }, 
-        async (payload) => {
-          debugLog('New message received:', payload);
-          
-          // Play notification sound
+      messageChannel = supabase.channel('messages')
+        .on('postgres_changes', {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `receiver_id=eq.${currentUser.id}`
+        }, async (payload) => {
           playMessageSound();
-          
-          // Get sender info
-          const { data: sender } = await supabase
-            .from('users')
-            .select('name, phone')
-            .eq('id', payload.new.sender_id)
-            .single();
-          
-          // Show notification
-          if (sender) {
-            notify(`📨 ${sender.name || sender.phone}: ${payload.new.content}`);
-          }
-          
-          // If chat is open with the sender, display the message
+          const { data: sender } = await supabase.from('users').select('name, phone').eq('id', payload.new.sender_id).single();
+          if (sender) notify(`📨 ${sender.name || sender.phone}: ${payload.new.content}`);
           if (activeChatFriend && sender && sender.phone === activeChatFriend) {
             addMessageToChat(payload.new.content, false);
           }
-        })
-        .subscribe();
-
-      // Broadcast user online status
-      callChannel.send({
-        type: 'broadcast',
-        event: 'user-status',
-        payload: { phone: currentUser.phone, status: 'online' }
-      });
+        }).subscribe();
     }
 
-    // ============ IMPROVED FRIENDS SYSTEM ============
+    // ============ FRIENDS ============
     async function loadFriends() {
       if (!currentUser) return;
-      
-      try {
-        debugLog('Loading friends for:', currentUser.phone);
-        
-        const { data, error } = await supabase
-          .from('friends')
-          .select('friend_id')
-          .eq('user_id', currentUser.id)
-          .eq('status', 'accepted');
-          
-        if (error) {
-          console.error('Error loading friends:', error);
-          return;
-        }
-        
-        if (data && data.length > 0) {
-          const friendIds = data.map(f => f.friend_id);
-          const { data: users } = await supabase.from('users').select('*').in('id', friendIds);
-          friends = users || [];
-          debugLog('Friends loaded:', friends);
-        } else {
-          friends = [];
-        }
-        displayFriends();
-      } catch (err) {
-        console.error('Load friends error:', err);
-      }
+      const { data } = await supabase.from('friends').select('friend_id').eq('user_id', currentUser.id).eq('status', 'accepted');
+      if (data?.length) {
+        const ids = data.map(f => f.friend_id);
+        const { data: users } = await supabase.from('users').select('*').in('id', ids);
+        friends = users || [];
+      } else friends = [];
+      displayFriends();
     }
 
     async function loadFriendRequests() {
       if (!currentUser) return;
-      
-      try {
-        debugLog('Loading friend requests for:', currentUser.phone);
-        
-        const { data, error } = await supabase
-          .from('friend_requests')
-          .select('*')
-          .eq('to_phone', currentUser.phone)
-          .eq('status', 'pending');
-
-        if (error) {
-          console.error('Error loading requests:', error);
-          return;
-        }
-
-        debugLog('Found pending requests:', data);
-        document.getElementById('requestCount').textContent = data ? data.length : 0;
-        displayPendingRequests(data || []);
-        
-      } catch (error) {
-        console.error('Load requests error:', error);
-      }
-    }
-
-    // Send friend request
-    document.getElementById('sendRequestBtn').addEventListener('click', async () => {
-      if (!currentUser) { 
-        notify('Login first'); 
-        return; 
-      }
-      
-      const friendPhone = document.getElementById('friendNameInput').value.trim();
-      
-      if (!friendPhone) {
-        notify('Please enter a phone number');
-        return;
-      }
-      
-      if (friendPhone === currentUser.phone) {
-        notify('Cannot add yourself as friend');
-        return;
-      }
-
-      if (!validatePhone(friendPhone)) {
-        notify('Invalid phone number format');
-        return;
-      }
-
-      try {
-        debugLog('Sending friend request to:', friendPhone);
-        
-        // Check if user exists
-        const { data: friend, error: userError } = await supabase
-          .from('users')
-          .select('*')
-          .eq('phone', friendPhone)
-          .maybeSingle();
-
-        if (userError) {
-          console.error('Error finding user:', userError);
-          notify('Error finding user');
-          return;
-        }
-
-        if (!friend) {
-          notify('User not found. They need to register first.');
-          return;
-        }
-
-        // Check if already friends
-        const { data: existingFriendship } = await supabase
-          .from('friends')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .eq('friend_id', friend.id)
-          .maybeSingle();
-
-        if (existingFriendship) {
-          notify('Already friends!');
-          return;
-        }
-
-        // Check if request already exists
-        const { data: existingRequest } = await supabase
-          .from('friend_requests')
-          .select('*')
-          .eq('from_phone', currentUser.phone)
-          .eq('to_phone', friendPhone)
-          .eq('status', 'pending')
-          .maybeSingle();
-
-        if (existingRequest) {
-          notify('Friend request already sent!');
-          return;
-        }
-
-        // Send the friend request
-        const { error: insertError } = await supabase
-          .from('friend_requests')
-          .insert({
-            from_phone: currentUser.phone,
-            to_phone: friendPhone,
-            status: 'pending'
-          });
-
-        if (insertError) {
-          console.error('Error sending request:', insertError);
-          notify('Error sending friend request: ' + insertError.message);
-          return;
-        }
-
-        document.getElementById('friendNameInput').value = '';
-        notify(`Friend request sent to ${friend.name || friendPhone}! 📨`);
-        debugLog('Friend request sent successfully');
-        
-      } catch (error) {
-        console.error('Send request error:', error);
-        notify('Error sending friend request');
-      }
-    });
-
-    async function acceptRequest(fromPhone) {
-      if (!currentUser) {
-        notify('Please login first');
-        return;
-      }
-
-      try {
-        debugLog('Accepting request from:', fromPhone);
-        
-        // Find the requesting user
-        const { data: friend, error: friendError } = await supabase
-          .from('users')
-          .select('*')
-          .eq('phone', fromPhone)
-          .single();
-
-        if (friendError || !friend) {
-          console.error('Friend user not found:', friendError);
-          notify('User not found in database');
-          return;
-        }
-
-        debugLog('Found friend:', friend);
-
-        // Check if already friends
-        const { data: existingFriendship } = await supabase
-          .from('friends')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .eq('friend_id', friend.id)
-          .maybeSingle();
-
-        if (existingFriendship) {
-          debugLog('Already friends, updating request status');
-          await supabase
-            .from('friend_requests')
-            .update({ status: 'accepted' })
-            .eq('from_phone', fromPhone)
-            .eq('to_phone', currentUser.phone);
-          
-          notify('Already friends! 🤝');
-          loadFriends();
-          loadFriendRequests();
-          return;
-        }
-
-        // Insert friendship records
-        const { error: insertError1 } = await supabase
-          .from('friends')
-          .insert([{
-            user_id: currentUser.id,
-            friend_id: friend.id,
-            status: 'accepted'
-          }]);
-
-        if (insertError1) {
-          console.error('Error inserting friendship 1:', insertError1);
-          notify('Error creating friendship: ' + insertError1.message);
-          return;
-        }
-
-        const { error: insertError2 } = await supabase
-          .from('friends')
-          .insert([{
-            user_id: friend.id,
-            friend_id: currentUser.id,
-            status: 'accepted'
-          }]);
-
-        if (insertError2) {
-          console.error('Error inserting friendship 2:', insertError2);
-          // Clean up first insert if second fails
-          await supabase
-            .from('friends')
-            .delete()
-            .eq('user_id', currentUser.id)
-            .eq('friend_id', friend.id);
-          
-          notify('Error creating friendship: ' + insertError2.message);
-          return;
-        }
-
-        // Update the friend request status
-        await supabase
-          .from('friend_requests')
-          .update({ status: 'accepted' })
-          .eq('from_phone', fromPhone)
-          .eq('to_phone', currentUser.phone);
-
-        debugLog('Friend request accepted successfully');
-        notify(`Now friends with ${friend.name || fromPhone}! 🤝`);
-        
-        await loadFriends();
-        await loadFriendRequests();
-        
-      } catch (error) {
-        console.error('Accept request error:', error);
-        notify('Error accepting friend request: ' + error.message);
-      }
-    }
-
-    async function rejectRequest(fromPhone) {
-      if (!currentUser) return;
-
-      try {
-        debugLog('Rejecting request from:', fromPhone);
-        
-        const { error } = await supabase
-          .from('friend_requests')
-          .update({ status: 'rejected' })
-          .eq('from_phone', fromPhone)
-          .eq('to_phone', currentUser.phone);
-
-        if (error) {
-          console.error('Error rejecting request:', error);
-          notify('Error rejecting request');
-          return;
-        }
-
-        debugLog('Request rejected successfully');
-        notify('Friend request rejected');
-        await loadFriendRequests();
-        
-      } catch (error) {
-        console.error('Reject request error:', error);
-        notify('Error rejecting request');
-      }
-    }
-
-    // Make functions globally accessible
-    window.acceptRequest = acceptRequest;
-    window.rejectRequest = rejectRequest;
-
-    function displayPendingRequests(requests) {
-      document.getElementById('requestCount').textContent = requests.length;
-      const container = document.getElementById('pendingRequests');
-      if (requests.length > 0) {
-        container.innerHTML = requests.map(r => `
-          <div style="display:flex; align-items:center; gap:1rem; padding:0.8rem; background:rgba(0,240,255,0.05); border-radius:1rem; margin-top:0.5rem;">
-            <span>📨 <strong>+977 ${r.from_phone}</strong></span>
-            <button class="btn btn-primary" onclick="window.acceptRequest('${r.from_phone}')" style="padding:0.4rem 1.2rem;">✓ Accept</button>
-            <button class="btn btn-outline" onclick="window.rejectRequest('${r.from_phone}')" style="padding:0.4rem 1.2rem;">✗ Reject</button>
-          </div>
-        `).join('');
-      } else {
-        container.innerHTML = '<div style="opacity:0.7; font-size:0.9rem; margin-top:0.5rem;">No pending requests</div>';
-      }
+      const { data } = await supabase.from('friend_requests').select('*').eq('to_phone', currentUser.phone).eq('status', 'pending');
+      document.getElementById('requestCount').textContent = data ? data.length : 0;
+      displayPendingRequests(data || []);
     }
 
     function displayFriends() {
       const container = document.getElementById('friendsContainer');
-      if (friends.length > 0) {
+      document.getElementById('friendCount').textContent = friends.length;
+      document.getElementById('friendCountLabel').textContent = `${friends.length} friends`;
+      if (friends.length) {
         container.innerHTML = friends.map(f => `
           <div class="friend-card">
-            <div onclick="window.openChat('${f.phone}')" style="display:flex; align-items:center; flex:1;">
+            <div class="friend-left" onclick="window.openChat('${f.phone}')">
               <div class="friend-avatar">${f.name ? f.name[0] : '?'}</div>
               <div class="friend-info">
                 <div class="friend-name">${f.name || 'Unknown'}</div>
-                <div style="font-size:0.8rem; opacity:0.7;">+977 ${f.phone}</div>
+                <div class="friend-phone">+977 ${f.phone}</div>
               </div>
             </div>
-            <div style="display:flex; gap:0.5rem;">
-              <button class="btn btn-outline" onclick="window.openChat('${f.phone}')" style="padding:0.4rem 1rem;">💬</button>
-              <button class="btn btn-primary" onclick="window.startVideoCall('${f.phone}')" style="padding:0.4rem 1rem;">📹</button>
+            <div class="friend-actions">
+              <button class="btn btn-outline-primary btn-sm" onclick="window.openChat('${f.phone}')">💬</button>
+              <button class="btn btn-primary btn-sm" onclick="window.startVideoCall('${f.phone}')">📹</button>
             </div>
           </div>
         `).join('');
       } else {
-        container.innerHTML = '<div style="text-align:center; padding:3rem; opacity:0.7;">No friends yet</div>';
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">👥</div>
+            <div class="empty-state-title">No friends yet</div>
+            <div class="empty-state-desc">Add friends using their phone number below</div>
+          </div>
+        `;
       }
-      document.getElementById('friendCount').textContent = friends.length;
     }
 
-    // ============ CHAT SYSTEM ============
+    function displayPendingRequests(requests) {
+      document.getElementById('requestCount').textContent = requests.length;
+      const container = document.getElementById('pendingRequests');
+      if (requests.length) {
+        container.innerHTML = requests.map(r => `
+          <div class="request-item">
+            <div class="request-info">
+              <div class="request-avatar">${r.from_phone[0]}</div>
+              <div>
+                <div style="font-weight:500;">+977 ${r.from_phone}</div>
+                <div style="font-size:0.8rem;color:var(--text-muted);">Wants to connect</div>
+              </div>
+            </div>
+            <div class="request-actions">
+              <button class="btn btn-primary btn-sm" onclick="window.acceptRequest('${r.from_phone}')">Accept</button>
+              <button class="btn btn-danger btn-sm" onclick="window.rejectRequest('${r.from_phone}')">Decline</button>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        container.innerHTML = '';
+      }
+    }
+
+    document.getElementById('sendRequestBtn').addEventListener('click', async () => {
+      if (!currentUser) { notify('Please login first'); return; }
+      const phone = document.getElementById('friendNameInput').value.trim();
+      if (!validatePhone(phone)) { notify('Invalid phone number'); return; }
+      if (phone === currentUser.phone) { notify('Cannot add yourself'); return; }
+
+      const { data: friend } = await supabase.from('users').select('*').eq('phone', phone).maybeSingle();
+      if (!friend) { notify('User not found'); return; }
+      const { data: existing } = await supabase.from('friends').select('*').eq('user_id', currentUser.id).eq('friend_id', friend.id).maybeSingle();
+      if (existing) { notify('Already friends!'); return; }
+      const { data: req } = await supabase.from('friend_requests').select('*').eq('from_phone', currentUser.phone).eq('to_phone', phone).eq('status', 'pending').maybeSingle();
+      if (req) { notify('Request already sent'); return; }
+
+      await supabase.from('friend_requests').insert({ from_phone: currentUser.phone, to_phone: phone, status: 'pending' });
+      document.getElementById('friendNameInput').value = '';
+      notify(`Request sent to ${friend.name || phone}`);
+    });
+
+    window.acceptRequest = async (fromPhone) => {
+      const { data: friend } = await supabase.from('users').select('*').eq('phone', fromPhone).single();
+      if (!friend) { notify('User not found'); return; }
+      await supabase.from('friends').insert([{ user_id: currentUser.id, friend_id: friend.id, status: 'accepted' }]);
+      await supabase.from('friends').insert([{ user_id: friend.id, friend_id: currentUser.id, status: 'accepted' }]);
+      await supabase.from('friend_requests').update({ status: 'accepted' }).eq('from_phone', fromPhone).eq('to_phone', currentUser.phone);
+      notify(`Now friends with ${friend.name || fromPhone}!`);
+      loadFriends(); loadFriendRequests();
+    };
+
+    window.rejectRequest = async (fromPhone) => {
+      await supabase.from('friend_requests').update({ status: 'rejected' }).eq('from_phone', fromPhone).eq('to_phone', currentUser.phone);
+      notify('Request rejected');
+      loadFriendRequests();
+    };
+
+    // ============ CHAT ============
     function showFriendsList() {
-      document.getElementById('friendsListView').style.display = 'block';
+      document.getElementById('friendsListView').style.display = 'flex';
       document.getElementById('chatBox').classList.remove('active');
       activeChatFriend = null;
     }
 
-    async function openChat(friendPhone) {
+    window.openChat = async (friendPhone) => {
       activeChatFriend = friendPhone;
       const friend = friends.find(f => f.phone === friendPhone);
       document.getElementById('chatPartner').textContent = friend?.name || friendPhone;
+      document.getElementById('chatPartnerStatus').textContent = '● online';
       document.getElementById('friendsListView').style.display = 'none';
       document.getElementById('chatBox').classList.add('active');
       await loadChatHistory();
-    }
-
-    window.openChat = openChat;
+    };
 
     async function loadChatHistory() {
       if (!currentUser || !activeChatFriend) return;
-      
       const { data: friend } = await supabase.from('users').select('id').eq('phone', activeChatFriend).single();
       if (!friend) return;
-
-      const { data: messages } = await supabase
-        .from('messages')
-        .select('*')
-        .or(`sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`)
-        .order('created_at', { ascending: true });
-
+      const { data: messages } = await supabase.from('messages').select('*').or(`sender_id.eq.${currentUser.id},receiver_id.eq.${currentUser.id}`).order('created_at');
       const container = document.getElementById('messagesContainer');
       container.innerHTML = '';
-      
-      const relevant = messages?.filter(m => 
-        (m.sender_id === currentUser.id && m.receiver_id === friend.id) ||
-        (m.sender_id === friend.id && m.receiver_id === currentUser.id)
-      ) || [];
-
-      if (relevant.length > 0) {
-        relevant.forEach(m => addMessageToChat(m.content, m.sender_id === currentUser.id));
-      } else {
-        container.innerHTML = '<div class="msg" style="align-self:center;">Start chatting!</div>';
-      }
+      const relevant = messages?.filter(m => (m.sender_id === currentUser.id && m.receiver_id === friend.id) || (m.sender_id === friend.id && m.receiver_id === currentUser.id)) || [];
+      if (relevant.length) relevant.forEach(m => addMessageToChat(m.content, m.sender_id === currentUser.id));
+      else container.innerHTML = '<div class="msg msg-center">Start a conversation</div>';
     }
 
     function addMessageToChat(text, isSelf) {
       const container = document.getElementById('messagesContainer');
       const div = document.createElement('div');
-      div.className = isSelf ? 'msg self' : 'msg';
+      div.className = isSelf ? 'msg sent' : 'msg received';
       div.textContent = text;
       container.appendChild(div);
       container.scrollTop = container.scrollHeight;
@@ -1511,16 +1619,9 @@
       if (!currentUser || !activeChatFriend) { notify('Select a friend'); return; }
       const text = sanitizeInput(document.getElementById('chatInput').value.trim());
       if (!text) return;
-
       const { data: friend } = await supabase.from('users').select('id').eq('phone', activeChatFriend).single();
       if (!friend) return;
-
-      await supabase.from('messages').insert({
-        sender_id: currentUser.id,
-        receiver_id: friend.id,
-        content: text
-      });
-
+      await supabase.from('messages').insert({ sender_id: currentUser.id, receiver_id: friend.id, content: text });
       addMessageToChat(text, true);
       document.getElementById('chatInput').value = '';
     }
@@ -1529,304 +1630,118 @@
     document.getElementById('chatInput').addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
     document.getElementById('backToFriendsBtn').addEventListener('click', () => { showFriendsList(); displayFriends(); });
     document.getElementById('voiceMsgBtn').addEventListener('click', () => {
-      if (!activeChatFriend) return;
-      addMessageToChat('🎤 Voice message', true);
+      if (activeChatFriend) addMessageToChat('🎤 Voice message', true);
     });
 
-    // ============ ENHANCED WEBRTC CALLS ============
-    
-    // Check if user is online (simulated)
-    async function isUserOnline(phone) {
-      // For now, we'll assume all registered users are online
-      // In production, you'd track this via presence channels
-      return true;
-    }
-
+    // ============ WEBRTC CALLS ============
     async function startVideoCall(friendPhone) {
-      if (!currentUser || isInCall) {
-        notify('Already in a call');
-        return;
-      }
-
+      if (!currentUser || isInCall) { notify('Already in a call'); return; }
       isCaller = true;
-      activeChatFriend = friendPhone;
-      currentCallFriend = friendPhone;
-      
-      // Update remote label
+      activeChatFriend = currentCallFriend = friendPhone;
       const friend = friends.find(f => f.phone === friendPhone);
       document.getElementById('remoteLabel').textContent = friend?.name || friendPhone;
-      
-      // Check if user is online
-      const online = await isUserOnline(friendPhone);
-      
+
       try {
-        debugLog('Starting video call to:', friendPhone);
-        
-        // Get local media
-        localStream = await navigator.mediaDevices.getUserMedia({ 
-          video: { width: 640, height: 480 },
-          audio: true 
-        });
-        
+        localStream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 }, audio: true });
         document.getElementById('localVideo').srcObject = localStream;
-        
-        // Show call overlay immediately for caller
         document.getElementById('callOverlay').classList.add('active');
         isInCall = true;
-        
-        // Start playing ringing sound for caller
-        if (online) {
-          playRingingSound();
-        } else {
-          playBusyTone();
-          notify('User appears to be offline');
-          setTimeout(() => cleanupCall(), 3000);
-          return;
-        }
+        playRingingSound();
 
-        // Create peer connection
         await createPeerConnection();
-        
-        // Add local tracks to peer connection
-        localStream.getTracks().forEach(track => {
-          peerConnection.addTrack(track, localStream);
-        });
-        
-        // Create and send offer
+        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
         const offer = await peerConnection.createOffer();
         await peerConnection.setLocalDescription(offer);
-        
-        debugLog('Sending call offer');
-        await callChannel.send({
-          type: 'broadcast',
-          event: 'call-offer',
-          payload: {
-            from: currentUser.phone,
-            to: friendPhone,
-            data: { sdp: offer }
-          }
-        });
+        await callChannel.send({ type: 'broadcast', event: 'call-offer', payload: { from: currentUser.phone, to: friendPhone, data: { sdp: offer } } });
 
-        // Set timeout for call (60 seconds)
         callTimeout = setTimeout(() => {
-          if (isInCall && !peerConnection?.remoteDescription) {
-            notify('Call not answered');
-            hangupCall();
-          }
+          if (isInCall && !peerConnection?.remoteDescription) { notify('Call not answered'); hangupCall(); }
         }, 60000);
-        
-      } catch (err) {
-        console.error('Error starting call:', err);
-        notify('Error: Camera/mic access required');
-        cleanupCall();
-      }
+      } catch (err) { notify('Camera/mic access required'); cleanupCall(); }
     }
-
     window.startVideoCall = startVideoCall;
 
     async function createPeerConnection() {
-      // Close existing connection if any
-      if (peerConnection) {
-        peerConnection.close();
-      }
-      
+      if (peerConnection) peerConnection.close();
       peerConnection = new RTCPeerConnection(rtcConfig);
-      
-      // Handle ICE candidates
-      peerConnection.onicecandidate = (event) => {
-        if (event.candidate && currentCallFriend) {
-          debugLog('Sending ICE candidate');
-          callChannel.send({
-            type: 'broadcast',
-            event: 'ice-candidate',
-            payload: {
-              from: currentUser.phone,
-              to: currentCallFriend,
-              data: event.candidate
-            }
-          });
+      peerConnection.onicecandidate = (e) => {
+        if (e.candidate && currentCallFriend) {
+          callChannel.send({ type: 'broadcast', event: 'ice-candidate', payload: { from: currentUser.phone, to: currentCallFriend, data: e.candidate } });
         }
       };
-      
-      // Handle incoming remote tracks
-      peerConnection.ontrack = (event) => {
-        debugLog('Received remote track');
-        if (event.streams && event.streams[0]) {
-          document.getElementById('remoteVideo').srcObject = event.streams[0];
-        }
+      peerConnection.ontrack = (e) => {
+        if (e.streams?.[0]) document.getElementById('remoteVideo').srcObject = e.streams[0];
       };
-      
-      // Handle connection state changes
       peerConnection.onconnectionstatechange = () => {
-        debugLog('Connection state:', peerConnection.connectionState);
         if (peerConnection.connectionState === 'connected') {
           stopRingingSounds();
           if (callTimeout) clearTimeout(callTimeout);
           notify('Call connected!');
-        } else if (peerConnection.connectionState === 'failed' || 
-                   peerConnection.connectionState === 'disconnected') {
+        } else if (peerConnection.connectionState === 'failed' || peerConnection.connectionState === 'disconnected') {
           notify('Call connection lost');
           cleanupCall();
         }
       };
-      
-      // Handle ICE connection state
-      peerConnection.oniceconnectionstatechange = () => {
-        debugLog('ICE connection state:', peerConnection.iceConnectionState);
-      };
-      
-      // Handle negotiation needed
       peerConnection.onnegotiationneeded = async () => {
-        debugLog('Negotiation needed');
         if (isCaller) {
           const offer = await peerConnection.createOffer();
           await peerConnection.setLocalDescription(offer);
-          
-          await callChannel.send({
-            type: 'broadcast',
-            event: 'call-offer',
-            payload: {
-              from: currentUser.phone,
-              to: currentCallFriend,
-              data: { sdp: offer }
-            }
-          });
+          await callChannel.send({ type: 'broadcast', event: 'call-offer', payload: { from: currentUser.phone, to: currentCallFriend, data: { sdp: offer } } });
         }
       };
     }
 
     function handleIncomingCall(from, data) {
-      if (isInCall) {
-        // Send reject if already in call
-        callChannel.send({
-          type: 'broadcast',
-          event: 'call-rejected',
-          payload: {
-            from: currentUser.phone,
-            to: from
-          }
-        });
-        return;
-      }
-      
-      debugLog('Incoming call from:', from);
+      if (isInCall) { callChannel.send({ type: 'broadcast', event: 'call-rejected', payload: { from: currentUser.phone, to: from } }); return; }
       isCaller = false;
       currentCallFriend = from;
       window._pendingOffer = data;
-      
-      // Show incoming call UI with ringing
       const friend = friends.find(f => f.phone === from);
       document.getElementById('incomingCallerName').textContent = friend?.name || from;
       document.getElementById('remoteLabel').textContent = friend?.name || from;
       document.getElementById('incomingCall').classList.add('active');
-      
-      // Play incoming call sound for receiver
       playIncomingCallSound();
     }
 
     document.getElementById('acceptCallBtn').addEventListener('click', async () => {
       stopRingingSounds();
       document.getElementById('incomingCall').classList.remove('active');
-      
       try {
-        debugLog('Accepting call');
-        
-        // Get local media
-        localStream = await navigator.mediaDevices.getUserMedia({ 
-          video: { width: 640, height: 480 },
-          audio: true 
-        });
-        
+        localStream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 }, audio: true });
         document.getElementById('localVideo').srcObject = localStream;
-        
-        // Create peer connection
         await createPeerConnection();
-        
-        // Add local tracks
-        localStream.getTracks().forEach(track => {
-          peerConnection.addTrack(track, localStream);
-        });
-        
-        // Set remote description (the offer)
-        await peerConnection.setRemoteDescription(
-          new RTCSessionDescription(window._pendingOffer.sdp)
-        );
-        
-        // Create answer
+        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(window._pendingOffer.sdp));
         const answer = await peerConnection.createAnswer();
         await peerConnection.setLocalDescription(answer);
-        
-        // Send answer
-        debugLog('Sending call answer');
-        await callChannel.send({
-          type: 'broadcast',
-          event: 'call-answer',
-          payload: {
-            from: currentUser.phone,
-            to: currentCallFriend,
-            data: { sdp: answer }
-          }
-        });
-        
-        // Show call overlay
+        await callChannel.send({ type: 'broadcast', event: 'call-answer', payload: { from: currentUser.phone, to: currentCallFriend, data: { sdp: answer } } });
         document.getElementById('callOverlay').classList.add('active');
         isInCall = true;
-        
-      } catch (err) {
-        console.error('Error accepting call:', err);
-        notify('Error: Camera/mic access required');
-        cleanupCall();
-      }
+      } catch (err) { notify('Camera/mic access required'); cleanupCall(); }
     });
 
     document.getElementById('rejectCallBtn').addEventListener('click', () => {
       stopRingingSounds();
       document.getElementById('incomingCall').classList.remove('active');
-      
-      debugLog('Rejecting call');
-      callChannel.send({
-        type: 'broadcast',
-        event: 'call-rejected',
-        payload: {
-          from: currentUser.phone,
-          to: currentCallFriend
-        }
-      });
-      
+      callChannel.send({ type: 'broadcast', event: 'call-rejected', payload: { from: currentUser.phone, to: currentCallFriend } });
       cleanupCall();
     });
 
     async function handleCallAnswer(data) {
-      debugLog('Call answered');
       stopRingingSounds();
       if (callTimeout) clearTimeout(callTimeout);
-      
       if (peerConnection) {
-        try {
-          await peerConnection.setRemoteDescription(
-            new RTCSessionDescription(data.sdp)
-          );
-        } catch (err) {
-          console.error('Error setting remote description:', err);
-        }
+        try { await peerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp)); } catch (e) { console.error(e); }
       }
     }
 
     function handleIceCandidate(candidate) {
       if (peerConnection) {
-        try {
-          peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-        } catch (err) {
-          console.error('Error adding ICE candidate:', err);
-        }
+        try { peerConnection.addIceCandidate(new RTCIceCandidate(candidate)); } catch (e) { console.error(e); }
       }
     }
 
-    function handleRemoteHangup() {
-      stopRingingSounds();
-      notify('Call ended by other party');
-      cleanupCall();
-    }
+    function handleRemoteHangup() { stopRingingSounds(); notify('Call ended by other party'); cleanupCall(); }
 
     function handleCallRejected(from) {
       stopRingingSounds();
@@ -1839,103 +1754,47 @@
     function hangupCall() {
       stopRingingSounds();
       if (callTimeout) clearTimeout(callTimeout);
-      
-      debugLog('Hanging up call');
       if (currentCallFriend) {
-        callChannel.send({
-          type: 'broadcast',
-          event: 'call-ended',
-          payload: {
-            from: currentUser.phone,
-            to: currentCallFriend
-          }
-        });
+        callChannel.send({ type: 'broadcast', event: 'call-ended', payload: { from: currentUser.phone, to: currentCallFriend } });
       }
-      
       cleanupCall();
     }
 
     function cleanupCall() {
       stopRingingSounds();
-      if (callTimeout) {
-        clearTimeout(callTimeout);
-        callTimeout = null;
-      }
-      
-      // Close peer connection
-      if (peerConnection) {
-        peerConnection.close();
-        peerConnection = null;
-      }
-      
-      // Stop local stream
-      if (localStream) {
-        localStream.getTracks().forEach(track => track.stop());
-        localStream = null;
-      }
-      
-      // Clear video elements
+      if (callTimeout) clearTimeout(callTimeout);
+      if (peerConnection) { peerConnection.close(); peerConnection = null; }
+      if (localStream) { localStream.getTracks().forEach(t => t.stop()); localStream = null; }
       document.getElementById('localVideo').srcObject = null;
       document.getElementById('remoteVideo').srcObject = null;
-      
-      // Hide UI elements
       document.getElementById('callOverlay').classList.remove('active');
       document.getElementById('incomingCall').classList.remove('active');
-      
-      // Reset state
-      isInCall = false;
-      isCaller = false;
-      currentCallFriend = null;
-      window._pendingOffer = null;
+      isInCall = false; isCaller = false; currentCallFriend = null; window._pendingOffer = null;
     }
 
-    // Call control buttons
     document.getElementById('hangupBtn').addEventListener('click', hangupCall);
-    
     document.getElementById('toggleMicBtn').addEventListener('click', () => {
       if (localStream) {
-        const audioTrack = localStream.getAudioTracks()[0];
-        if (audioTrack) {
-          audioTrack.enabled = !audioTrack.enabled;
-          document.getElementById('toggleMicBtn').textContent = audioTrack.enabled ? '🎙️' : '🔇';
-        }
+        const track = localStream.getAudioTracks()[0];
+        if (track) { track.enabled = !track.enabled; document.getElementById('toggleMicBtn').textContent = track.enabled ? '🎙️' : '🔇'; }
       }
     });
-    
     document.getElementById('toggleCamBtn').addEventListener('click', () => {
       if (localStream) {
-        const videoTrack = localStream.getVideoTracks()[0];
-        if (videoTrack) {
-          videoTrack.enabled = !videoTrack.enabled;
-          document.getElementById('toggleCamBtn').textContent = videoTrack.enabled ? '📸' : '🚫';
-        }
+        const track = localStream.getVideoTracks()[0];
+        if (track) { track.enabled = !track.enabled; document.getElementById('toggleCamBtn').textContent = track.enabled ? '📸' : '🚫'; }
       }
     });
+    document.getElementById('startVideoCallBtn').addEventListener('click', () => { if (activeChatFriend) startVideoCall(activeChatFriend); });
 
-    document.getElementById('startVideoCallBtn').addEventListener('click', () => {
-      if (activeChatFriend) startVideoCall(activeChatFriend);
-    });
-
+    // ============ NAVIGATION ============
     document.getElementById('homeTab').addEventListener('click', () => { showFriendsList(); displayFriends(); });
     document.getElementById('friendsTab').addEventListener('click', () => { showFriendsList(); displayFriends(); });
     document.getElementById('requestsTab').addEventListener('click', () => { showFriendsList(); });
 
-    function updateUI() {
-      if (currentUser) {
-        document.getElementById('friendCount').textContent = friends.length;
-        displayFriends();
-      }
-    }
-
-    // Initialize
-    debugLog('App initializing...');
+    // ============ INIT ============
     loadSession();
-
-    // Clean up on page unload
-    window.addEventListener('beforeunload', () => {
-      if (isInCall) hangupCall();
-      stopRingingSounds();
-    });
+    window.addEventListener('beforeunload', () => { if (isInCall) hangupCall(); stopRingingSounds(); });
   </script>
 </body>
 </html>
